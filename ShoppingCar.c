@@ -129,7 +129,6 @@ int validation(PAccount acc)
 
 void login()
 {
-//	printf("ddddd");
 	PAccount paccount=(PAccount)malloc(sizeof(Account));
 	printf("\t请输入登录账户:");
 	paccount->account = (char *)malloc(sizeof(char)*10);//使用指针属性的变量，记住给该属性动态分配内存
