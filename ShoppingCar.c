@@ -126,6 +126,84 @@ int validation(PAccount acc)
 
 }
 
+void shoppingCar(){
+	
+	printf("\t\t\t欢迎进入商品列表\n\n");
+	printf("\t\t* * * * * * * * * * * * * * * * * * * * *\n\t\t*\t\t\t\t        *\n");
+	printf("\t\t*商品名\t\t商品编号 价格 数量      *\n");
+	for(int i=0;i<N;i++){
+		if(goods[i].flag!=0){
+		printf("\t\t*%s\t%s\t%.2f %d\t*\n",goods[i].goodsName,goods[i].ID,goods[i].price,goods[i].flag);
+		}
+	}
+	printf("\t\t* * * * * * * * * * * * * * * * * * * * *\n\n");
+	operateGoods();
+}
+
+void operateGoods(){
+	int input;
+	printf("\t\t\t请选择你的操作\n\n");
+	printf("\t\t* * * * * * * * * * * * *\n\t\t*\t\t\t*\n");
+	printf("\t\t*\t1.删除商品\t*\n\t\t*\t\t\t*\n");
+	printf("\t\t*\t2.修改商品的数目*\n\t\t*\t\t\t*\n");
+	printf("\t\t*\t3.返回上一级菜单*\n\t\t*\t\t\t*\n");
+	printf("\t\t* * * * * * * * * * * * *\n\n");
+	printf("\t请输入你的选项:");
+	scanf("%d",&input);
+	switch(input)
+	{
+	case 1:
+	    deleteGoods();
+		break;
+	case 2:
+		updateGoods();
+		break;
+	case 3:
+		printShoppingMenu();
+		break;
+	default:
+		exit(0);
+		break;
+
+	}
+}
+
+void deleteGoods(){
+
+	char *input = (char *)malloc(sizeof(char)*10);
+	printf("\t请输入你要删除的id:");
+	fflush(stdin);
+	scanf("%s",input);
+	PGoods pgoods = findGoodsById(input);
+	if(pgoods&&pgoods->flag>0){
+		pgoods->flag=0;
+	}else{
+		printf("\t购物车中没有该商品\n\n");
+	}
+	shoppingCar();
+}
+
+void updateGoods(){
+
+	char *input = (char *)malloc(sizeof(char)*10);
+	int count;
+	printf("\t请输入你要修改的id:");
+	fflush(stdin);
+	scanf("%s",input);
+	PGoods pgoods = findGoodsById(input);
+	if(pgoods&&pgoods->flag>0){
+		printf("\t请输入你要修改的商品数量:");
+		fflush(stdin);
+		scanf("%d",&count);
+		if(count>0){
+			pgoods->flag = count;
+		}
+	}else{
+		printf("\t购物车中没有该商品\n\n");
+	}
+	shoppingCar();
+	
+}
 
 void login()
 {
@@ -133,7 +211,7 @@ void login()
 	printf("\t请输入登录账户:");
 	paccount->account = (char *)malloc(sizeof(char)*10);//使用指针属性的变量，记住给该属性动态分配内存
 	scanf("%s",paccount->account);
-	fflush(stdin);//输出缓冲区 在VC上可以使用，但是其他编译器不能保证对fflush的实现
+	fflush(stdin);//输出缓冲区 在VC6.0上可以使用，但是其他编译器不能保证对fflush的实现
 	printf("\t请输入密码:");
 	paccount->password =  (char *)malloc(sizeof(char)*10);
 	scanf("%s",paccount->password);
@@ -152,6 +230,7 @@ void logingSucess()
 {
 	printShoppingMenu();
 }
+
 void printShoppingMenu()
 {	
 	int input;
@@ -170,7 +249,7 @@ void printShoppingMenu()
 	    printGoodsList();
 		break;
 	case 2:
-		void shoppingCar();
+		shoppingCar();
 		break;
 	case 3:
 		void pay();
@@ -184,6 +263,7 @@ void printShoppingMenu()
 
 	}
 }
+
 void printGoodsList(){
 	printf("\t\t\t欢迎进入商品列表\n\n");
 	printf("\t\t* * * * * * * * * * * * * * * * *\n\t\t*\t\t\t\t*\n");
@@ -201,16 +281,19 @@ void printGoodsList(){
 	{
 		 addGoods();	
 	}else
-	{
+	{//待移除 
 		printf("\n");
 		printShoppingMenu();
 	}
 	}while(input=='y');
 }
+
 //test
-void main()
+int main()
 {
 //	printMainMenu();
 //	printf("pass");//question:什么时候会打印?-->after calling  function printMainMenu?
-	printGoodsList();
+	printGoodsList();//测试当前待测试方法
+//	operateGoods();
+	return 0;
 }
