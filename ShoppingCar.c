@@ -68,7 +68,7 @@ void printMainMenu()
 		login();
 		break;
 	case 2:
-		void regist();
+		regist();
 		break;
 	case 0:
 	default:
@@ -111,12 +111,31 @@ void addGoods(){
 	}
 	printf("\n");
 }
-
+//fix
+static PAccount root = (PAccount) malloc(sizeof(PAccount));
+static int flag = 1;
+void regist(){
+	fflush(stdin);
+	printf("\t请输入账户名:");
+	root->account =  (char *) malloc(sizeof(char)*10);
+	scanf("%s",root->account);
+	fflush(stdin);
+	printf("\t请输入密码:");
+	root->password =  (char *) malloc(sizeof(char)*10);
+	scanf("%s",root->password);
+	flag = 0;
+	printf("\t注册成功\n\n");
+	printMainMenu();
+}
+//fix
 int validation(PAccount acc)
 {
-	char account[10]="root";//模拟注册的账户
-	char password[10]="123";//模拟对应的注册密码
-	if(strcmp(account,acc->account)==0&&strcmp(password,acc->password)==0)
+	if(flag){
+	//前置判断
+		printf("\t请先注册后再登录使用\n\n");
+		return 0;
+	}
+	if(strcmp(root->account,acc->account)==0&&strcmp(root->password,acc->password)==0)
 	{
 		return 1;
 	}else
@@ -207,6 +226,7 @@ void updateGoods(){
 
 void login()
 {
+	
 	PAccount paccount=(PAccount)malloc(sizeof(Account));
 	printf("\t请输入登录账户:");
 	paccount->account = (char *)malloc(sizeof(char)*10);//使用指针属性的变量，记住给该属性动态分配内存
@@ -313,9 +333,9 @@ void printGoodsList(){
 //test
 int main()
 {
-//	printMainMenu();
+	printMainMenu();
 //	printf("pass");//question:什么时候会打印?-->after calling  function printMainMenu?
-	printGoodsList();//测试当前待测试方法
+//	printGoodsList();//测试当前待测试方法
 //	operateGoods();
 	return 0;
 }
