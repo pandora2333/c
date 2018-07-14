@@ -111,9 +111,9 @@ void addGoods(){
 	}
 	printf("\n");
 }
-//fix
-static PAccount root = (PAccount) malloc(sizeof(PAccount));
-static int flag = 1;
+
+static PAccount root = (PAccount) malloc(sizeof(PAccount));//用户注册的账户
+static int flag = 1;//是否注册的标识位
 void regist(){
 	fflush(stdin);
 	printf("\t请输入账户名:");
@@ -127,11 +127,11 @@ void regist(){
 	printf("\t注册成功\n\n");
 	printMainMenu();
 }
-//fix
+
 int validation(PAccount acc)
 {
 	if(flag){
-	//前置判断
+	//前置判断:是否注册过账户
 		printf("\t请先注册后再登录使用\n\n");
 		return 0;
 	}
@@ -323,7 +323,7 @@ void printGoodsList(){
 	{
 		 addGoods();	
 	}else
-	{//待移除 
+	{
 		printf("\n");
 		printShoppingMenu();
 	}
