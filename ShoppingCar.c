@@ -225,6 +225,28 @@ void login()
 	}
 } 
 
+void pay(){
+
+	float sum = 0.0f;
+	float input;
+	for(int i=0;i<N;i++){
+		if(goods[i].flag>0){
+			sum+=goods[i].flag*goods[i].price;
+			goods[i].flag=0;
+		}
+	}
+	do{
+		printf("\t请支付金额 %.2f:",sum);
+		scanf("%f",&input);
+		if(input-sum>=0.0){
+			printf("\t找你余额 %.2f\n\n",input-sum);
+		}else{
+			printf("\t你支付的金额不足，请重新支付\n\n");
+		}
+		}while(input-sum <0);
+	printShoppingMenu();
+}
+
 //登录成功
 void logingSucess()
 {
@@ -252,7 +274,7 @@ void printShoppingMenu()
 		shoppingCar();
 		break;
 	case 3:
-		void pay();
+		pay();
 		break;
 	case 4:
 		printMainMenu();
