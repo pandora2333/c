@@ -206,7 +206,7 @@ void destory(){
     }
 }
 
-void addContacts(){//倒插法
+void addContacts(){//头插法
 	People temp = (People)malloc(sizeof(People));
 	//以下代码实现添加--start---
 	printf("\t请输入姓名:");
