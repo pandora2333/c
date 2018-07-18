@@ -308,7 +308,7 @@ People findContacts(People node,char *find){
 void updateContacts(People node){
 	ret = 1;//每次调用初始化一次
 	printf("\t已经进入修改模式...\n\n");
-	int num = 1;//标识第几条记录,对应不唯一性使用
+	int num = 0;//标识第几条记录,对应不唯一性使用,0表示查找失败
 	if(node->name!=NULL){//唯一性
 		People temp = head->next;
 		while(temp!=NULL){//找到原有数据的地址
@@ -331,14 +331,17 @@ void updateContacts(People node){
 		do{
 			temp = findContacts(temp->next,find);
 			if(temp!=NULL){
-				printf("\t这是查询到的第 %d 条记录!\n\n",num);
 				num++;
+				printf("\t这是查询到的第 %d 条记录!\n\n",num);
 				while(ret){
 					printUpdateMenu(temp);
 				}
 				ret = 1;
 			}
 		}while(temp!=NULL);
+		if(!num){
+			printf("\t查找失败，回到主界面\n\n");
+		}
 		free(find);
 		find = NULL;
 	}
