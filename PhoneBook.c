@@ -107,62 +107,62 @@ void printUpdateMenu(People node){
 	fflush(stdin);
 	char *temp = (char *)malloc(sizeof(char)*MAXSIZE);
 	switch(input){
-	case 1:
-		//修改姓名
-		printf("\t请输入修改后的姓名:");
-		scanf("%s",temp);
-		fflush(stdin);
-		if(notNullStr(temp)){
-			node->name = temp;
-		}
-		break;
-	case 2:
-		//修改性别
-		printf("\t请输入修改后的性别:");
-		scanf("%s",temp);
-		fflush(stdin);
-		if(notNullStr(temp)){
-			node->sex = temp;
-		}
-		break;
-	case 3:
-		//修改电话号码
-		printf("\t请输入修改后的电话号码:");
-		do{
-			printf("\t请输入电话号码:");
-			scanf("%s",node->phone);
+		case 1:
+			//修改姓名
+			printf("\t请输入修改后的姓名:");
+			scanf("%s",temp);
 			fflush(stdin);
-			//加入对phone的验证
-		}while(!validatePhone(node->phone));
-		break;
-	case 4:
-		//修改与本人关系
-		printf("\t请输入修改后的关系:");
-		scanf("%s",temp);
-		fflush(stdin);
-		if(notNullStr(temp)){
-			node->relation = temp;
-		}
-		break;
-	case 5:
-		//修改住址
-		printf("\t请输入修改后的地址:");
-		scanf("%s",temp);
-		fflush(stdin);
-		if(notNullStr(temp)){
-			node->address = temp;
-		}
-		break;
-	case 6:
-	default:
-		//返回主界面
-		printf("\t最终修改后:\n\n");
-		showHead();
-		showContacts(node);
-		showTail();
-		ret = 0;
-		free(temp);
-		temp=NULL;
+			if(notNullStr(temp)){
+				node->name = temp;
+			}
+			break;
+		case 2:
+			//修改性别
+			printf("\t请输入修改后的性别:");
+			scanf("%s",temp);
+			fflush(stdin);
+			if(notNullStr(temp)){
+				node->sex = temp;
+			}
+			break;
+		case 3:
+			//修改电话号码
+			printf("\t请输入修改后的电话号码:");
+			do{
+				printf("\t请输入电话号码:");
+				scanf("%s",node->phone);
+				fflush(stdin);
+				//加入对phone的验证
+			}while(!validatePhone(node->phone));
+			break;
+		case 4:
+			//修改与本人关系
+			printf("\t请输入修改后的关系:");
+			scanf("%s",temp);
+			fflush(stdin);
+			if(notNullStr(temp)){
+				node->relation = temp;
+			}
+			break;
+		case 5:
+			//修改住址
+			printf("\t请输入修改后的地址:");
+			scanf("%s",temp);
+			fflush(stdin);
+			if(notNullStr(temp)){
+				node->address = temp;
+			}
+			break;
+		case 6:
+		default:
+			//返回主界面
+			printf("\t最终修改后:\n\n");
+			showHead();
+			showContacts(node);
+			showTail();
+			ret = 0;
+			free(temp);
+			temp=NULL;
 	}
 
 }
@@ -403,47 +403,47 @@ void printMainMenu(){
 	char *find = (char *)malloc(sizeof(char)*MAXSIZE);
 	/*--end--*/
 	switch(input){
-	case 1:
-		addContacts();
-		break;
-	case 2:
-		delContacts();
-		break;
-	case 3:
-		showFindSamePart();
-		fflush(stdin);
-		scanf("%s",find);
-		printf("\t查询开始....\n");
-		showHead();
-		do{//循环遍历所有具有相同号码的联系人
-			temp = findContacts(temp->next,find);
-			if(temp!=NULL){
-				showContacts(temp);
-				count++;
+		case 1:
+			addContacts();
+			break;
+		case 2:
+			delContacts();
+			break;
+		case 3:
+			showFindSamePart();
+			fflush(stdin);
+			scanf("%s",find);
+			printf("\t查询开始....\n");
+			showHead();
+			do{//循环遍历所有具有相同号码的联系人
+				temp = findContacts(temp->next,find);
+				if(temp!=NULL){
+					showContacts(temp);
+					count++;
+				}
+			}while(temp!=NULL);
+			if(!count){//对应查询失败
+				printf("\t查询失败!\n\n");
 			}
-		}while(temp!=NULL);
-		if(!count){//对应查询失败
-			printf("\t查询失败!\n\n");
-		}
-		if(count){
+			if(count){
+				showTail();
+			}
+			printf("\t查询结束...,共计查询到: %d条记录\n",count);
+			free(find);//节省内存
+			find= NULL;
+			break;
+		case 4:
+			updateContacts(head);
+			break;
+		case 5:
+			showHead();
+			showContacts(temp);
 			showTail();
-		}
-		printf("\t查询结束...,共计查询到: %d条记录\n",count);
-		free(find);//节省内存
-		find= NULL;
-		break;
-	case 4:
-		updateContacts(head);
-		break;
-	case 5:
-		showHead();
-		showContacts(temp);
-		showTail();
-		break;
-	case 6:
-	default:
-		destory();//销毁链表，释放内存
-		exit(0);
+			break;
+		case 6:
+		default:
+			destory();//销毁链表，释放内存
+			exit(0);
 	}
 	
 }
