@@ -55,7 +55,7 @@ void Free(People node){
 
 int notNullStr(char *str){
 	if(strcmp(str,"\"\"")==0){
-		printf("\t请输入非空串!\n");
+		printf("\t请输入有效字符!\n");
 		return 0;
 	}
 	return 1;
