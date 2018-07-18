@@ -5,7 +5,7 @@
 
 typedef struct Contacts
 {
-	char *name;  //姓名
+	char *name;  //姓名,作为全局唯一标识符，唯一性
 	char *sex;   //性别
 	char phone[MAXSIZE]; //电话号码
 	char *relation;//与本人关系
@@ -106,12 +106,28 @@ void printUpdateMenu(People node){
 	scanf("%d",&input);
 	fflush(stdin);
 	char *temp = (char *)malloc(sizeof(char)*MAXSIZE);
+	/*用于case 1 --start--*/
+	People distinct = head->next;//游标
+	int ok = 0;//当出现名字冲突时，循环标志位
+	/*--end--*/
 	switch(input){
 		case 1:
 			//修改姓名
-			printf("\t请输入修改后的姓名:");
-			scanf("%s",temp);
-			fflush(stdin);
+			//加入预先搜索,去重
+			do{
+				printf("\t请输入修改后的姓名:");
+				scanf("%s",temp);
+				ok = 0;//标志位复位
+				while(distinct!=NULL){
+					if(strcmp(temp,distinct->name)==0){
+						printf("\t存在相关联系人，请重新输入其他名字!\n");
+						ok = 1;
+						break;//找到一个就不再向下查询，节约时间
+					}
+					distinct=distinct->next;
+				}
+				fflush(stdin);
+			}while(ok);
 			if(notNullStr(temp)){
 				node->name = temp;
 			}
@@ -207,7 +223,7 @@ void addContacts(){//倒插法
 	while(distinct!=NULL){
 		if(strcmp(temp->name,distinct->name)==0){
 			printf("\t存在相关联系人，自动跳转到修改页面\n");
-			updateContacts(temp);
+			updateContacts(temp);//update唯一性使用
 			free(temp);//不是新建节点，故释放内存
 			return;
 		}
@@ -315,9 +331,9 @@ void updateContacts(People node){
 		do{
 			temp = findContacts(temp->next,find);
 			if(temp!=NULL){
+				printf("\t这是查询到的第 %d 条记录!\n\n",num);
+				num++;
 				while(ret){
-					printf("\t这是查询到的第 %d 条记录!\n\n",num);
-					num++;
 					printUpdateMenu(temp);
 				}
 				ret = 1;
